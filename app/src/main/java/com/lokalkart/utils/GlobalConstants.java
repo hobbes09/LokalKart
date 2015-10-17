@@ -1,0 +1,12 @@
+package com.lokalkart.utils;
+
+/**
+ * Created by sourin on 18/10/15.
+ */
+public class GlobalConstants {
+
+    public static final boolean PRODUCTION = false;
+
+    public static final int SPLASH_SCREEN_TIMEOUT = 3000;
+
+}
