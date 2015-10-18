@@ -26,7 +26,7 @@ public class HomeScreen extends AppCompatActivity implements PreHomeScreenFragme
         initializeUiElements();
 
         //Launch PreHomeScreenFragment to download necessary data for this activity
-        Fragment mPreHomeScreenFragment = new PreHomeScreenFragment();
+        Fragment mPreHomeScreenFragment = PreHomeScreenFragment.newInstance();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack
