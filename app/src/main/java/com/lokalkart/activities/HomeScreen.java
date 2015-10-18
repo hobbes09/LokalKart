@@ -2,6 +2,7 @@ package com.lokalkart.activities;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +12,7 @@ import android.widget.FrameLayout;
 import com.lokalkart.R;
 import com.lokalkart.fragments.PreHomeScreenFragment;
 
-public class HomeScreen extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity implements PreHomeScreenFragment.OnFragmentInteractionListener{
 
     private static boolean set_raw_data;
 
@@ -61,5 +62,10 @@ public class HomeScreen extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
