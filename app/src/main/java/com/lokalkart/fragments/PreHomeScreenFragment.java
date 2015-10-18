@@ -1,12 +1,16 @@
 package com.lokalkart.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.lokalkart.R;
 
@@ -19,32 +23,33 @@ import com.lokalkart.R;
  * create an instance of this fragment.
  */
 public class PreHomeScreenFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int STATE = 1;
+    /**
+     *  STATE = 1  ---> User is prompted to select city
+     *  STATE = 2  ---> User is prompted to select location for that city
+     *  STATE = 3  ---> Progress bar. Store data in data base and get necessary data for next fragment
+     */
+
+    private View viewLocationDetails;
+    private RelativeLayout rlLocationDetails;
+
+    private int width;
+    private int height;
 
     private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment PreHomeScreenFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static PreHomeScreenFragment newInstance(String param1, String param2) {
+    public static PreHomeScreenFragment newInstance() {
         PreHomeScreenFragment fragment = new PreHomeScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -55,17 +60,33 @@ public class PreHomeScreenFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        width = display.getWidth();
+        height = display.getHeight();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pre_home_screen, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initializeUiElements();
+
+    }
+
+    private void initializeUiElements() {
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
