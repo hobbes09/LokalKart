@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -25,7 +28,7 @@ import com.lokalkart.R;
  * Use the {@link PreHomeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PreHomeScreenFragment extends Fragment {
+public class PreHomeScreenFragment extends Fragment implements AdapterView.OnItemSelectedListener, Button.OnClickListener {
 
     private int width;
     private int height;
@@ -35,9 +38,12 @@ public class PreHomeScreenFragment extends Fragment {
     private LinearLayout llSelectCityLoc;
     private Spinner spinnerCity;
     private Spinner spinnerLocality;
+    private Button btnSelectedCityLocality;
 
     private static final String[] cities = {"Kolkata", "Bangalore"};
     private static final String[] localities = {"item 1", "item 2", "item 3"};
+    private String selectedCity;
+    private String selectedLocality;
 
     /**
      * Use this factory method to create a new instance of
@@ -94,6 +100,25 @@ public class PreHomeScreenFragment extends Fragment {
         int bottom = Math.round(height/20);
         lp.setMargins(left,top,right,bottom);
         llSelectCityLoc.setLayoutParams(lp);
+
+        btnSelectedCityLocality = (Button) fragmentView.findViewById(R.id.btnSelectedCityLocality);
+        btnSelectedCityLocality.setOnClickListener(this);
+
+        spinnerCity = (Spinner)fragmentView.findViewById(R.id.spinnerCity);
+        ArrayAdapter<String> adapterCity = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, cities);
+
+        adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCity.setAdapter(adapterCity);
+        spinnerCity.setOnItemSelectedListener(this);
+
+        spinnerLocality = (Spinner)fragmentView.findViewById(R.id.spinnerLocality);
+        ArrayAdapter<String> adapterLocality = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, localities);
+
+        adapterLocality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLocality.setAdapter(adapterLocality);
+        spinnerLocality.setOnItemSelectedListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -118,6 +143,29 @@ public class PreHomeScreenFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        if(parent.getId() == R.id.spinnerCity){
+            selectedCity = parent.getItemAtPosition(position).toString();
+        }
+        if(parent.getId() == R.id.spinnerLocality){
+            selectedLocality = parent.getItemAtPosition(position).toString();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.btnSelectedCityLocality){
+            Toast.makeText(getActivity(), selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
