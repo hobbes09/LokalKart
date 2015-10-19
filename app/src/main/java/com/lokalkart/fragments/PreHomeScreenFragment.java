@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.lokalkart.R;
 
@@ -24,20 +27,17 @@ import com.lokalkart.R;
  */
 public class PreHomeScreenFragment extends Fragment {
 
-    private int STATE = 1;
-    /**
-     *  STATE = 1  ---> User is prompted to select city
-     *  STATE = 2  ---> User is prompted to select location for that city
-     *  STATE = 3  ---> Progress bar. Store data in data base and get necessary data for next fragment
-     */
-
-    private View viewLocationDetails;
-    private RelativeLayout rlLocationDetails;
-
     private int width;
     private int height;
 
     private OnFragmentInteractionListener mListener;
+
+    private LinearLayout llSelectCityLoc;
+    private Spinner spinnerCity;
+    private Spinner spinnerLocality;
+
+    private static final String[] cities = {"Kolkata", "Bangalore"};
+    private static final String[] localities = {"item 1", "item 2", "item 3"};
 
     /**
      * Use this factory method to create a new instance of
@@ -74,19 +74,26 @@ public class PreHomeScreenFragment extends Fragment {
         width = display.getWidth();
         height = display.getHeight();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pre_home_screen, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_pre_home_screen, container, false);
+        initializeUiElements(fragmentView);
+        return fragmentView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initializeUiElements();
-
     }
 
-    private void initializeUiElements() {
-
+    private void initializeUiElements(View fragmentView) {
+        llSelectCityLoc = (LinearLayout)fragmentView.findViewById(R.id.llSelectCityLoc);
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)llSelectCityLoc.getLayoutParams();
+        int left = Math.round(width/15);
+        int top = Math.round(height/20);
+        int right = Math.round(width/15);
+        int bottom = Math.round(height/20);
+        lp.setMargins(left,top,right,bottom);
+        llSelectCityLoc.setLayoutParams(lp);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
