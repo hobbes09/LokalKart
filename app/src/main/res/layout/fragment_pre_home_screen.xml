@@ -60,6 +60,11 @@
             android:orientation="horizontal"
             android:background="#8A0808">
 
+            <Button
+                android:id="@+id/btnSelectedCityLocality"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
 
 
