@@ -23,7 +23,7 @@ import com.lokalkart.services.LocationService;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LocationHomeScreenFragment.OnFragmentInteractionListener} interface
+ * {@link OnLocationFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link LocationHomeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -33,7 +33,7 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     private int width;
     private int height;
 
-    private OnFragmentInteractionListener mListener;
+    private OnLocationFragmentInteractionListener mListener;
     private View fragmentView;
 
     private LinearLayout llSelectCityLoc;
@@ -131,10 +131,10 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnLocationFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnLocationFragmentInteractionListener");
         }
     }
 
@@ -172,7 +172,7 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
         if(v.getId() == R.id.btnSelectedCityLocality){
             Toast.makeText(getActivity(), selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
             if (mListener != null) {
-                mListener.onFragmentInteraction(selectedCity, selectedLocality);
+                mListener.onLocationFragmentInteraction(selectedCity, selectedLocality);
             }
         }
     }
@@ -187,9 +187,9 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnLocationFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(String selectedCity, String selectedLocality);
+        public void onLocationFragmentInteraction(String selectedCity, String selectedLocality);
     }
 
 }

@@ -2,6 +2,7 @@ package com.lokalkart.activities;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,9 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lokalkart.R;
+import com.lokalkart.fragments.LoaderHomeScreenFragment;
 import com.lokalkart.fragments.LocationHomeScreenFragment;
 
-public class HomeScreen extends AppCompatActivity implements LocationHomeScreenFragment.OnFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity implements LocationHomeScreenFragment.OnLocationFragmentInteractionListener{
 
     private static boolean set_raw_data;
 
@@ -64,10 +66,9 @@ public class HomeScreen extends AppCompatActivity implements LocationHomeScreenF
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    public void onFragmentInteraction(String selectedCity, String selectedLocality) {
-
-        Toast.makeText(HomeScreen.this, "From Activity::: " + selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
-
+    public void onLocationFragmentInteraction(String selectedCity, String selectedLocality) {
+        Toast.makeText(HomeScreen.this, "Activity Data::: " + selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
     }
 }
