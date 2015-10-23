@@ -2,7 +2,6 @@ package com.lokalkart.activities;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,9 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lokalkart.R;
-import com.lokalkart.fragments.PreHomeScreenFragment;
+import com.lokalkart.fragments.LocationHomeScreenFragment;
 
-public class HomeScreen extends AppCompatActivity implements PreHomeScreenFragment.OnFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity implements LocationHomeScreenFragment.OnFragmentInteractionListener{
 
     private static boolean set_raw_data;
 
@@ -26,12 +25,12 @@ public class HomeScreen extends AppCompatActivity implements PreHomeScreenFragme
 
         initializeUiElements();
 
-        //Launch PreHomeScreenFragment to download necessary data for this activity
-        Fragment mPreHomeScreenFragment = PreHomeScreenFragment.newInstance();
+        //Launch LocationHomeScreenFragment to download necessary data for this activity
+        Fragment mLocationHomeScreenFragment = LocationHomeScreenFragment.newInstance();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack
-        transaction.replace(R.id.fl_hs_fragment_container, mPreHomeScreenFragment);
+        transaction.replace(R.id.fl_hs_fragment_container, mLocationHomeScreenFragment);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();

@@ -2,7 +2,6 @@ package com.lokalkart.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.Display;
@@ -24,12 +23,12 @@ import com.lokalkart.services.LocationService;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PreHomeScreenFragment.OnFragmentInteractionListener} interface
+ * {@link LocationHomeScreenFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PreHomeScreenFragment#newInstance} factory method to
+ * Use the {@link LocationHomeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PreHomeScreenFragment extends Fragment implements AdapterView.OnItemSelectedListener, Button.OnClickListener {
+public class LocationHomeScreenFragment extends Fragment implements AdapterView.OnItemSelectedListener, Button.OnClickListener {
 
     private int width;
     private int height;
@@ -49,10 +48,10 @@ public class PreHomeScreenFragment extends Fragment implements AdapterView.OnIte
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * @return A new instance of fragment PreHomeScreenFragment.
+     * @return A new instance of fragment LocationHomeScreenFragment.
      */
-    public static PreHomeScreenFragment newInstance() {
-        PreHomeScreenFragment fragment = new PreHomeScreenFragment();
+    public static LocationHomeScreenFragment newInstance() {
+        LocationHomeScreenFragment fragment = new LocationHomeScreenFragment();
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -60,7 +59,7 @@ public class PreHomeScreenFragment extends Fragment implements AdapterView.OnIte
         return fragment;
     }
 
-    public PreHomeScreenFragment() {
+    public LocationHomeScreenFragment() {
         // Required empty public constructor
     }
 
