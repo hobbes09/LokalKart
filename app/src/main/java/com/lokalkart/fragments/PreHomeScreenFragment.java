@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.lokalkart.R;
 import com.lokalkart.services.LocationService;
 
@@ -39,7 +40,7 @@ public class PreHomeScreenFragment extends Fragment implements AdapterView.OnIte
     private LinearLayout llSelectCityLoc;
     private Spinner spinnerCity;
     private Spinner spinnerLocality;
-    private Button btnSelectedCityLocality;
+    private ButtonRectangle btnSelectedCityLocality;
 
     private String selectedCity;
     private String selectedLocality;
@@ -105,7 +106,7 @@ public class PreHomeScreenFragment extends Fragment implements AdapterView.OnIte
         lp.setMargins(left,top,right,bottom);
         llSelectCityLoc.setLayoutParams(lp);
 
-        btnSelectedCityLocality = (Button) fragmentView.findViewById(R.id.btnSelectedCityLocality);
+        btnSelectedCityLocality = (ButtonRectangle) fragmentView.findViewById(R.id.btnSelectedCityLocality);
         btnSelectedCityLocality.setOnClickListener(this);
 
         spinnerCity = (Spinner)fragmentView.findViewById(R.id.spinnerCity);
