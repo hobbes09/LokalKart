@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.lokalkart.R;
 import com.lokalkart.fragments.PreHomeScreenFragment;
@@ -65,7 +66,9 @@ public class HomeScreen extends AppCompatActivity implements PreHomeScreenFragme
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(String selectedCity, String selectedLocality) {
+
+        Toast.makeText(HomeScreen.this, "From Activity::: " + selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
 
     }
 }
