@@ -14,7 +14,7 @@ import com.lokalkart.R;
 import com.lokalkart.fragments.LoaderHomeScreenFragment;
 import com.lokalkart.fragments.LocationHomeScreenFragment;
 
-public class HomeScreen extends AppCompatActivity implements LocationHomeScreenFragment.OnLocationFragmentInteractionListener{
+public class HomeScreen extends AppCompatActivity implements LocationHomeScreenFragment.OnLocationFragmentInteractionListener, LoaderHomeScreenFragment.OnLoaderFragmentInteractionListener{
 
     private static boolean set_raw_data;
 
@@ -70,5 +70,20 @@ public class HomeScreen extends AppCompatActivity implements LocationHomeScreenF
     @Override
     public void onLocationFragmentInteraction(String selectedCity, String selectedLocality) {
         Toast.makeText(HomeScreen.this, "Activity Data::: " + selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
+
+        Fragment mLoaderHomeScreenFragment = LoaderHomeScreenFragment.newInstance(selectedCity, selectedLocality);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack
+        transaction.replace(R.id.fl_hs_fragment_container, mLoaderHomeScreenFragment);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
+
+    }
+
+    @Override
+    public void onLoaderFragmentInteraction(boolean status) {
+
     }
 }
