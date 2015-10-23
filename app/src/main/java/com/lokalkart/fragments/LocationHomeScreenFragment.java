@@ -76,7 +76,7 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentView = inflater.inflate(R.layout.fragment_pre_home_screen, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_location_home_screen, container, false);
         initializeUiElements(fragmentView);
         return fragmentView;
     }
