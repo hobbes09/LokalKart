@@ -85,5 +85,12 @@ public class HomeScreen extends AppCompatActivity implements LocationHomeScreenF
     @Override
     public void onLoaderFragmentInteraction(boolean status) {
 
+        if(status == true){
+            Toast.makeText(HomeScreen.this, "Download complete", Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(HomeScreen.this, "Error downloading", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
