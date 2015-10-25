@@ -1,15 +1,14 @@
 package com.lokalkart.fragments;
 
+
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lokalkart.R;
-import com.lokalkart.utils.GlobalConstants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,21 +72,12 @@ public class LoaderHomeScreenFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Thread timer = new Thread(){
-            public void run(){
-                try{
-                    // Simulate download behavior
-                    sleep(GlobalConstants.SPLASH_SCREEN_TIMEOUT);
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }
-            }
-        };
-        timer.start();
+
+
         if (mListener != null) {
-            status = true;
             mListener.onLoaderFragmentInteraction(status);
         }
+
     }
 
 

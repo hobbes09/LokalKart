@@ -3,7 +3,8 @@ package com.lokalkart.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,11 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.lokalkart.R;
+import com.lokalkart.activities.HomeScreen;
 import com.lokalkart.services.LocationService;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -169,9 +174,11 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
 
     @Override
     public void onClick(View v) {
+        Log.v("location--click", new Timestamp((new Date()).getTime()).toString());
         if(v.getId() == R.id.btnSelectedCityLocality){
-            Toast.makeText(getActivity(), selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(HomeScreen.mApplicationContext, selectedCity + "---" + selectedLocality, Toast.LENGTH_SHORT).show();
             if (mListener != null) {
+                Log.v("location--liscall", new Timestamp((new Date()).getTime()).toString());
                 mListener.onLocationFragmentInteraction(selectedCity, selectedLocality);
             }
         }
@@ -188,7 +195,6 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnLocationFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onLocationFragmentInteraction(String selectedCity, String selectedLocality);
     }
 
