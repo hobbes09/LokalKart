@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/lokalkartbg"
         android:weightSum="100">
 
         <LinearLayout
@@ -61,8 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="65"
-            android:background="#79C433">
+            android:layout_weight="65">
 
             <ExpandableListView
                 android:id="@+id/elvCategories"
