@@ -14,5 +14,6 @@
     <string name="cancel">Cancel</string>
     <string name="next">NEXT</string>
     <string name="patience">Patience is a virtue ...</string>
+    <string name="category_header">SHOP BY CATEGORY</string>
 
 </resources>
