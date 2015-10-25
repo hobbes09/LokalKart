@@ -27,7 +27,7 @@ public class LoaderHomeScreenFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String selectedCity;
     private String selectedLocality;
-    private boolean status = false;
+    private boolean status = true;
 
     private OnLoaderFragmentInteractionListener mListener;
 
