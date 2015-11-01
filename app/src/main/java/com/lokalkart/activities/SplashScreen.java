@@ -1,6 +1,7 @@
 package com.lokalkart.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.AppCompatActivity;
@@ -70,6 +71,10 @@ public class SplashScreen extends AppCompatActivity implements LoaderManager.Loa
             Toast.makeText(getApplicationContext(), "Access token : "+ this.mAuthenticationTokens.getAccessToken(), Toast.LENGTH_SHORT).show();
             GlobalConstants.accessToken = this.mAuthenticationTokens.getAccessToken();
             GlobalConstants.refreshToken = this.mAuthenticationTokens.getRefreshToken();
+
+            Intent intent = new Intent(SplashScreen.this, HomeScreen.class);
+            startActivity(intent);
+
         }else{
             Toast.makeText(getApplicationContext(), "Unable to connect to server. Please check your internet connection", Toast.LENGTH_SHORT).show();
         }
