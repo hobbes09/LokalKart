@@ -2,5 +2,6 @@
 <resources>
 
     <integer name="AUTHENTICATION_LOADER">1</integer>
+    <integer name="CITY_LIST_LOADER">2</integer>
 
 </resources>
