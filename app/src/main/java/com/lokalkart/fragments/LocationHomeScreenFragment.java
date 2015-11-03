@@ -1,9 +1,13 @@
 package com.lokalkart.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -20,9 +24,11 @@ import android.widget.Toast;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.lokalkart.R;
 import com.lokalkart.activities.HomeScreen;
+import com.lokalkart.models.entities.City;
 import com.lokalkart.services.LocationService;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -33,10 +39,16 @@ import java.util.Date;
  * Use the {@link LocationHomeScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LocationHomeScreenFragment extends Fragment implements AdapterView.OnItemSelectedListener, Button.OnClickListener {
+public class LocationHomeScreenFragment extends Fragment implements AdapterView.OnItemSelectedListener, Button.OnClickListener, LoaderManager.LoaderCallbacks<ArrayList<City>> {
 
     private int width;
     private int height;
+
+    private ArrayList<City> cities;
+    private String[] stringCities = {};
+    private String[] localities = {"loc1", "loc2", "loc3"};
+
+    private ProgressDialog mProgressDialog;
 
     private OnLocationFragmentInteractionListener mListener;
     private View fragmentView;
@@ -48,7 +60,6 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
 
     private String selectedCity;
     private String selectedLocality;
-    private LocationService locationService;
 
     /**
      * Use this factory method to create a new instance of
@@ -82,19 +93,16 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_location_home_screen, container, false);
-        initializeUiElements(fragmentView);
         return fragmentView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        initializeUiElements(view);
     }
 
     private void initializeUiElements(View fragmentView) {
-
-        locationService = LocationService.getLocationServiceInstance();
 
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -113,19 +121,30 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
         btnSelectedCityLocality = (ButtonRectangle) fragmentView.findViewById(R.id.btnSelectedCityLocality);
         btnSelectedCityLocality.setOnClickListener(this);
 
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getActivity().getResources().getString(R.string.progressDialogCities));
+        mProgressDialog.show();
+        fetchLocationDataAndStoreInDb();  //  Loader Activity --- time consuming  !!!
+        if(mProgressDialog!=null && mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
+
+
+    }
+
+    private void setUpSpinnerData(){
         spinnerCity = (Spinner)fragmentView.findViewById(R.id.spinnerCity);
-        String[] cities = locationService.getListOfCities();
+
         ArrayAdapter<String> adapterCity = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, cities);
+                android.R.layout.simple_spinner_item, this.stringCities);
 
         adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCity.setAdapter(adapterCity);
         spinnerCity.setOnItemSelectedListener(this);
 
         spinnerLocality = (Spinner)fragmentView.findViewById(R.id.spinnerLocality);
-        String[] localities = {};
         ArrayAdapter<String> adapterLocality = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, localities);
+                android.R.layout.simple_spinner_item, this.localities);
 
         adapterLocality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocality.setAdapter(adapterLocality);
@@ -149,12 +168,19 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
         mListener = null;
     }
 
+    private void fetchLocationDataAndStoreInDb() {
+
+        getActivity().getSupportLoaderManager().initLoader(HomeScreen.mApplicationContext.getResources()
+                .getInteger(R.integer.CITY_LIST_LOADER), null, this).forceLoad();
+
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if(parent.getId() == R.id.spinnerCity){
             selectedCity = parent.getItemAtPosition(position).toString();
-            String[] localities = locationService.getListOfLocalities(selectedCity);
+            String[] localities = this.localities;
             ArrayAdapter<String> adapterLocality = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.simple_spinner_item, localities);
 
@@ -183,6 +209,48 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
             }
         }
     }
+
+    @Override
+    public Loader<ArrayList<City>> onCreateLoader(int id, Bundle args) {
+
+        // Firstly check if cities are already available in DB
+
+        this.cities = new ArrayList<City>();
+        LocationLoader mLocationLoader = new LocationLoader(getActivity());
+        return mLocationLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<City>> loader, ArrayList<City> data) {
+        this.cities = data;
+        this.stringCities = new String[this.cities.size()];
+        for(int index = 0; index < this.cities.size(); index++){
+            City city = this.cities.get(index);
+            this.stringCities[index] = city.getCityName();
+        }
+        setUpSpinnerData();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<City>> loader) {
+        this.cities = null;
+        mProgressDialog = null;
+    }
+
+
+    private static class LocationLoader extends AsyncTaskLoader<ArrayList<City>> {
+
+        public LocationLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public ArrayList<City> loadInBackground() {
+            LocationService mLocationService = new LocationService();
+            return mLocationService.getListOfCities();
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
