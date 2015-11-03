@@ -6,6 +6,7 @@ import android.util.Base64;
 import com.lokalkart.models.entities.AuthenticationTokens;
 import com.lokalkart.models.pojos.AuthenticationPOJO;
 import com.lokalkart.network.HttpPostClient;
+import com.lokalkart.utils.Configurations;
 import com.lokalkart.utils.GlobalConstants;
 
 import java.util.HashMap;
@@ -38,25 +39,25 @@ public class AuthenticationService {
 
     public boolean fetchAuthenticationToken(){
 
-        GlobalConstants.accessToken = "";
-        GlobalConstants.refreshToken = "";
+        Configurations.accessToken = "";
+        Configurations.refreshToken = "";
         this.mAuthenticationTokens = new AuthenticationTokens();
 
         Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("http")
-               .authority(GlobalConstants.baseUrl)
+               .authority(Configurations.baseUrl)
                .appendPath("oauth")
                .appendPath("token")
                .appendQueryParameter("grant_type", "password")
                .appendQueryParameter("scope", "openid")
-               .appendQueryParameter("username", GlobalConstants.authorizationUsername)
-               .appendQueryParameter("password", GlobalConstants.authorizationPassword);
+               .appendQueryParameter("username", Configurations.authorizationUsername)
+               .appendQueryParameter("password", Configurations.authorizationPassword);
 
         this.url = builder.build().toString();
         this.urlParameters = "";
         this.authorizationHeader.put("Authorization", buildBasicAuthorizationString(
-                GlobalConstants.userCredentialName, GlobalConstants.userCredentialPassword));
+                Configurations.userCredentialName, Configurations.userCredentialPassword));
 
         HttpPostClient mHttpPostClient = new HttpPostClient();
         mHttpPostClient.setUrl(this.url);
@@ -74,8 +75,8 @@ public class AuthenticationService {
             this.mAuthenticationTokens.setAccessToken(mAuthenticationPOJO.getAccess_token());
             this.mAuthenticationTokens.setRefreshToken(mAuthenticationPOJO.getRefresh_token());
 
-            GlobalConstants.accessToken = mAuthenticationPOJO.getAccess_token();
-            GlobalConstants.refreshToken = mAuthenticationPOJO.getRefresh_token();
+            Configurations.accessToken = mAuthenticationPOJO.getAccess_token();
+            Configurations.refreshToken = mAuthenticationPOJO.getRefresh_token();
 
             return true;
         }
