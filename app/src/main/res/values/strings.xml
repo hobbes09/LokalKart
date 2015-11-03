@@ -16,4 +16,7 @@
     <string name="patience">Patience is a virtue ...</string>
     <string name="category_header">SHOP BY CATEGORY</string>
 
+    <string name="progressDialogCities">Loading cities ...</string>
+    <string name="progressDialogLocalities">Loading localities ...</string>
+
 </resources>
