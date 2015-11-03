@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.lokalkart.R;
 import com.lokalkart.models.entities.AuthenticationTokens;
 import com.lokalkart.services.AuthenticationService;
+import com.lokalkart.utils.Configurations;
 import com.lokalkart.utils.GlobalConstants;
 
 
@@ -69,8 +70,8 @@ public class SplashScreen extends AppCompatActivity implements LoaderManager.Loa
         if(data != null){
             this.mAuthenticationTokens = data;
             Toast.makeText(getApplicationContext(), "Access token : "+ this.mAuthenticationTokens.getAccessToken(), Toast.LENGTH_SHORT).show();
-            GlobalConstants.accessToken = this.mAuthenticationTokens.getAccessToken();
-            GlobalConstants.refreshToken = this.mAuthenticationTokens.getRefreshToken();
+            Configurations.accessToken = this.mAuthenticationTokens.getAccessToken();
+            Configurations.refreshToken = this.mAuthenticationTokens.getRefreshToken();
 
             Intent intent = new Intent(SplashScreen.this, HomeScreen.class);
             startActivity(intent);
