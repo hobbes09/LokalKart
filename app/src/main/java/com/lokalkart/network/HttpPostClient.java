@@ -67,6 +67,9 @@ public class HttpPostClient {
 
     public void sendPostRequestWithoutPayload(){
 
+        this.response = null;
+        this.responseCode = 0;
+
         try{
             URL url = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -105,6 +108,8 @@ public class HttpPostClient {
 
 
         }catch (Exception e){
+            this.responseCode = 0;
+            this.response = "Bad request";
             e.printStackTrace();
             Log.v("LokalKart","Exception in sendPostRequestWithoutPayload for "+this.url);
         }

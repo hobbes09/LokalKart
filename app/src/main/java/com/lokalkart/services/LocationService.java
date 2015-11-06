@@ -23,6 +23,8 @@ public class LocationService {
 
     private ArrayList<City> cities;
 
+    public int responseCode;
+
     public ArrayList<City> getListOfCities(){
         HttpGetClient mHttpGetClient = new HttpGetClient();
 
@@ -44,6 +46,7 @@ public class LocationService {
 
             if(mHttpGetClient.getResponseCode() == 200){
 
+                this.responseCode = 200;
                 String mJsonResp = mHttpGetClient.getResponse();
                 JsonReader reader = new JsonReader(new StringReader(mJsonResp));
                 reader.setLenient(true);
@@ -62,10 +65,15 @@ public class LocationService {
                         index++;
                     }
                 }
+            }else{
+                this.cities = null;
+                this.responseCode = mHttpGetClient.getResponseCode();
             }
 
         }catch(Exception e){
             e.printStackTrace();
+            this.responseCode = 0;
+            this.cities = null;
         }
 
         return cities;

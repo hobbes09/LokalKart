@@ -76,6 +76,8 @@ public class HttpGetClient {
                 this.responseCode = mHttpURLConnection.getResponseCode();
 
             }catch (Exception e){
+                this.responseCode = 0;
+                this.response = "Bad Request";
                 e.printStackTrace();
             }
         }
