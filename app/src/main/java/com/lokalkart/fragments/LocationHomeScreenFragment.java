@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.gc.materialdesign.views.ButtonRectangle;
 import com.lokalkart.R;
 import com.lokalkart.activities.HomeScreen;
+import com.lokalkart.models.databasehandlers.CityTableHandler;
 import com.lokalkart.models.entities.City;
 import com.lokalkart.services.LocationService;
 
@@ -61,6 +62,8 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     private String selectedCity;
     private String selectedLocality;
 
+    private static Context mContext;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -68,10 +71,7 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
      */
     public static LocationHomeScreenFragment newInstance() {
         LocationHomeScreenFragment fragment = new LocationHomeScreenFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -82,10 +82,6 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
@@ -109,6 +105,8 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
         width = display.getWidth();
         height = display.getHeight();
 
+        mContext = getActivity();
+
         llSelectCityLoc = (LinearLayout)fragmentView.findViewById(R.id.llSelectCityLoc);
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)llSelectCityLoc.getLayoutParams();
         int left = Math.round(width/15);
@@ -121,14 +119,7 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
         btnSelectedCityLocality = (ButtonRectangle) fragmentView.findViewById(R.id.btnSelectedCityLocality);
         btnSelectedCityLocality.setOnClickListener(this);
 
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getActivity().getResources().getString(R.string.progressDialogCities));
-        mProgressDialog.show();
         fetchLocationDataAndStoreInDb();  //  Loader Activity --- time consuming  !!!
-        if(mProgressDialog!=null && mProgressDialog.isShowing()){
-            mProgressDialog.dismiss();
-        }
-
 
     }
 
@@ -213,8 +204,6 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
     @Override
     public Loader<ArrayList<City>> onCreateLoader(int id, Bundle args) {
 
-        // Firstly check if cities are already available in DB
-
         this.cities = new ArrayList<City>();
         LocationLoader mLocationLoader = new LocationLoader(getActivity());
         return mLocationLoader;
@@ -246,8 +235,19 @@ public class LocationHomeScreenFragment extends Fragment implements AdapterView.
 
         @Override
         public ArrayList<City> loadInBackground() {
-            LocationService mLocationService = new LocationService();
-            return mLocationService.getListOfCities();
+            //initializing DB
+            CityTableHandler mCityTableHandler = new CityTableHandler(LocationHomeScreenFragment.mContext);
+            ArrayList<City> loadedCities = new ArrayList<City>();
+
+            if(mCityTableHandler.getCityCount() == 0){
+                LocationService mLocationService = new LocationService();
+                loadedCities = mLocationService.getListOfCities();
+                mCityTableHandler.addCities(loadedCities);
+            }else{
+                loadedCities = mCityTableHandler.getAllCities();
+            }
+
+            return loadedCities;
         }
     }
 
