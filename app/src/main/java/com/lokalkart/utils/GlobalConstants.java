@@ -11,7 +11,7 @@ public class GlobalConstants {
     public static int NUM_COLUMNS_SUBCATEGORY = 2;
     public static int NUM_ADS = 5;
 
-
+    public static String nameSharedPreference = "LkSharedPreference";
 
 
 
